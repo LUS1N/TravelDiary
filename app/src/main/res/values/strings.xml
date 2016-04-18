@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">TravelDiary</string>
+    <string name="new_note_text">Add new travel note</string>
 </resources>
