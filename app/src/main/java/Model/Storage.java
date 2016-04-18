@@ -63,5 +63,9 @@ public class Storage
                 false));
         notes.add(new Note("Better Place", "Good", "World", new Date(),
                 "http://i.imgur.com/SiYjT3Z.png", false));
+        notes.add(new Note("Place", "Good", "World", new Date(), "http://i.imgur.com/0Pdm4frg.jpg",
+                false));
+        notes.add(new Note("Place", "Good", "World", new Date(), null,
+                false));
     }
 }

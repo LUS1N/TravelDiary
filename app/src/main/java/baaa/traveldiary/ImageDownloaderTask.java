@@ -2,7 +2,6 @@ package baaa.traveldiary;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
     private String stringUrl = "";
     boolean thumbnail;
 
-
     public ImageDownloaderTask(ImageView imageView, boolean thumbnail)
     {
         this.imageViewReference = new WeakReference<>(imageView);
@@ -31,11 +29,14 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
     protected Bitmap doInBackground(String... params)
     {
         return downloadBitmap(params[0]);
-
     }
 
     private Bitmap downloadBitmap(String url)
     {
+        if (url == null)
+        {
+            return null;
+        }
         stringUrl = url;
         HttpURLConnection urlConnection = null;
         try
@@ -73,22 +74,14 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
     protected void onPostExecute(Bitmap image)
     {
         if (isCancelled())
-            image = null;
+            return;
 
         ImageView imgView = imageViewReference.get();
-        if (imgView != null)
-        {
-            if (image != null)
-            {
-                addImageToViewAndStorage(image, imgView);
-            }
-            else
-            {
-                Drawable placeholder = imgView.getContext().getResources().getDrawable(
-                        R.drawable.ic_action_name);
-                imgView.setImageDrawable(placeholder);
-            }
-        }
+        if (imgView == null || image == null)
+            return;
+
+        addImageToViewAndStorage(image, imgView);
+
     }
 
     private void addImageToViewAndStorage(Bitmap image, ImageView imgView)
@@ -96,10 +89,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
         // save the instance in the hashmap
         Storage.getInstance().putImage(stringUrl, image);
 
-        // if thumbnail is required, return resized version
-        if (thumbnail)
-            image = Storage.getScaledBitmap(image);
-
-        imgView.setImageBitmap(image);
+        // if thumbnail is required, return resized version from storage
+        imgView.setImageBitmap(Storage.getInstance().getImage(stringUrl, thumbnail));
     }
 }
