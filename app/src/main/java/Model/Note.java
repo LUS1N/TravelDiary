@@ -12,10 +12,10 @@ public class Note
     private Date dateOfVisit;
     private boolean visitAgain;
 
-    public Note(String description, String title, String address, URL imageURL, Date dateOfVisit, boolean visitAgain)
+    public Note(String title, String description, String address, URL imageURL, Date dateOfVisit, boolean visitAgain)
     {
-        this.description = description;
         this.title = title;
+        this.description = description;
         this.address = address;
         this.imageURL = imageURL;
         this.dateOfVisit = dateOfVisit;

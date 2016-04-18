@@ -5,12 +5,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+import Model.Note;
+import Model.Storage;
 
 public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 {
 
     LayoutInflater inflater;
     ExpandableListView noteListView;
+    ArrayList<Note> notes = Storage.getInstance().getNotes();
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
     {
@@ -22,13 +30,22 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
-        View noteGroupview = convertView;
+        View noteGroupview = getRowView(convertView, parent);
 
-        if(noteGroupview == null)
-        {
-            noteGroupview = inflater.inflate(R.layout.note_list_row, parent, false);
-        }
+        Note currentNote = (Note) getGroup(groupPosition);
+
+        ((TextView) noteGroupview.findViewById(R.id.title_textView)).setText(currentNote.getTitle());
+        SimpleDateFormat sdt = new SimpleDateFormat("y-MM-d");
+        ((TextView) noteGroupview.findViewById(R.id.date_textView)).setText(sdt.format(currentNote.getDateOfVisit()));
+
+
+
         return noteGroupview;
+    }
+
+    private View getRowView(View convertView, ViewGroup parent)
+    {
+        return convertView == null ? inflater.inflate(R.layout.note_list_row, parent, false): convertView;
     }
 
     @Override
@@ -40,7 +57,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public int getGroupCount()
     {
-        return 0;
+        return notes.size();
     }
 
     @Override
@@ -52,7 +69,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public Object getGroup(int groupPosition)
     {
-        return null;
+        return notes.get(groupPosition);
     }
 
     @Override
