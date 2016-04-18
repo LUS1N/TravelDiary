@@ -12,14 +12,19 @@ import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import Model.Storage;
+
 public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 {
     private final WeakReference<ImageView> imageViewReference;
+    private String stringUrl = "";
+    boolean thumbnail;
 
 
-    public ImageDownloaderTask(ImageView imageView)
+    public ImageDownloaderTask(ImageView imageView, boolean thumbnail)
     {
         this.imageViewReference = new WeakReference<>(imageView);
+        this.thumbnail = thumbnail;
     }
 
     @Override
@@ -31,8 +36,8 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 
     private Bitmap downloadBitmap(String url)
     {
+        stringUrl = url;
         HttpURLConnection urlConnection = null;
-        Log.w("BB", " downloading image from " + url);
         try
         {
             URL uri = new URL(url);
@@ -45,12 +50,12 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
             InputStream inputStream = urlConnection.getInputStream();
             if (inputStream != null)
             {
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                return bitmap;
+                return BitmapFactory.decodeStream(inputStream);
             }
         }
         catch (Exception e)
         {
+            assert urlConnection != null;
             urlConnection.disconnect();
             Log.w("BB", "Error downloading image from " + url);
         }
@@ -69,22 +74,32 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
     {
         if (isCancelled())
             image = null;
-        if (imageViewReference != null)
+
+        ImageView imgView = imageViewReference.get();
+        if (imgView != null)
         {
-            ImageView imgView = imageViewReference.get();
-            if (imgView != null)
+            if (image != null)
             {
-                if (image != null)
-                {
-                    imgView.setImageBitmap(image);
-                }
-                else
-                {
-                    Drawable placeholder = imgView.getContext().getResources().getDrawable(
-                            R.drawable.ic_action_name);
-                    imgView.setImageDrawable(placeholder);
-                }
+                addImageToViewAndStorage(image, imgView);
+            }
+            else
+            {
+                Drawable placeholder = imgView.getContext().getResources().getDrawable(
+                        R.drawable.ic_action_name);
+                imgView.setImageDrawable(placeholder);
             }
         }
+    }
+
+    private void addImageToViewAndStorage(Bitmap image, ImageView imgView)
+    {
+        // save the instance in the hashmap
+        Storage.getInstance().putImage(stringUrl, image);
+
+        // if thumbnail is required, return resized version
+        if (thumbnail)
+            image = Storage.getScaledBitmap(image);
+
+        imgView.setImageBitmap(image);
     }
 }

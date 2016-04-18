@@ -1,6 +1,5 @@
 package Model;
 
-import java.net.URL;
 import java.util.Date;
 
 public class Note
@@ -8,17 +7,17 @@ public class Note
     private String title;
     private String description;
     private String address;
-    private URL imageURL;
     private Date dateOfVisit;
+    private String imageURL;
     private boolean visitAgain;
 
-    public Note(String title, String description, String address, URL imageURL, Date dateOfVisit, boolean visitAgain)
+    public Note(String title, String description, String address, Date dateOfVisit, String imageURL, boolean visitAgain)
     {
         this.title = title;
         this.description = description;
         this.address = address;
-        this.imageURL = imageURL;
         this.dateOfVisit = dateOfVisit;
+        this.imageURL = imageURL;
         this.visitAgain = visitAgain;
     }
 
@@ -52,12 +51,12 @@ public class Note
         this.address = address;
     }
 
-    public URL getImageURL()
+    public String getImageURL()
     {
         return imageURL;
     }
 
-    public void setImageURL(URL imageURL)
+    public void setImageURL(String imageURL)
     {
         this.imageURL = imageURL;
     }

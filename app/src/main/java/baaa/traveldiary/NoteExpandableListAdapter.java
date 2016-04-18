@@ -1,5 +1,6 @@
 package baaa.traveldiary;
 
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -20,6 +22,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     LayoutInflater inflater;
     ExpandableListView noteListView;
     ArrayList<Note> notes = Storage.getInstance().getNotes();
+    Storage storage = Storage.getInstance();
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
     {
@@ -31,28 +34,50 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
-        View noteGroupview = getView(R.layout.note_list_row, convertView, parent);
+        View noteGroupView = getView(R.layout.note_list_row, convertView, parent);
 
         Note currentNote = (Note) getGroup(groupPosition);
 
-        ((TextView) noteGroupview.findViewById(R.id.title_textView)).setText(
-                currentNote.getTitle());
-        SimpleDateFormat sdt = new SimpleDateFormat("y-MM-d");
-        ((TextView) noteGroupview.findViewById(R.id.date_textView)).setText(
-                sdt.format(currentNote.getDateOfVisit()));
-
-        return noteGroupview;
+        initialiseGroupViewValues(noteGroupView, currentNote);
+        return noteGroupView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {
         View noteExpandedView = getView(R.layout.note_expanded, convertView, parent);
+        ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
+        Note currentNote = storage.getNotes().get(groupPosition);
 
-       new ImageDownloaderTask((ImageView)noteExpandedView.findViewById(R.id.expanded_image)).execute("http://i.imgur.com/0Pdm4rg.jpg");
-
+        addImageToView(currentNote, imageView, false);
 
         return noteExpandedView;
+    }
+
+    private void initialiseGroupViewValues(View noteGroupView, Note currentNote)
+    {
+        // Title
+        ((TextView) noteGroupView.findViewById(R.id.title_textView)).setText(
+                currentNote.getTitle());
+        // Date
+        DateFormat sdt = SimpleDateFormat.getDateInstance();
+        ((TextView) noteGroupView.findViewById(R.id.date_textView)).setText(
+                sdt.format(currentNote.getDateOfVisit()));
+
+        // Image
+        ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
+        addImageToView(currentNote, imageView, true);
+    }
+
+    private void addImageToView(Note currentNote, ImageView imageView, boolean isThumb)
+    {
+        Bitmap image;
+        if ((image = storage.getImage(currentNote.getImageURL(), isThumb)) != null)
+        {
+            imageView.setImageBitmap(image);
+        }
+        else
+            new ImageDownloaderTask(imageView, isThumb).execute(currentNote.getImageURL());
     }
 
     private View getView(int resource, View convertView, ViewGroup parent)
