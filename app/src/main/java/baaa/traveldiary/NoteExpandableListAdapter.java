@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -30,28 +31,33 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
-        View noteGroupview = getRowView(convertView, parent);
+        View noteGroupview = getView(R.layout.note_list_row, convertView, parent);
 
         Note currentNote = (Note) getGroup(groupPosition);
 
-        ((TextView) noteGroupview.findViewById(R.id.title_textView)).setText(currentNote.getTitle());
+        ((TextView) noteGroupview.findViewById(R.id.title_textView)).setText(
+                currentNote.getTitle());
         SimpleDateFormat sdt = new SimpleDateFormat("y-MM-d");
-        ((TextView) noteGroupview.findViewById(R.id.date_textView)).setText(sdt.format(currentNote.getDateOfVisit()));
-
-
+        ((TextView) noteGroupview.findViewById(R.id.date_textView)).setText(
+                sdt.format(currentNote.getDateOfVisit()));
 
         return noteGroupview;
-    }
-
-    private View getRowView(View convertView, ViewGroup parent)
-    {
-        return convertView == null ? inflater.inflate(R.layout.note_list_row, parent, false): convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {
-        return null;
+        View noteExpandedView = getView(R.layout.note_expanded, convertView, parent);
+
+       new ImageDownloaderTask((ImageView)noteExpandedView.findViewById(R.id.expanded_image)).execute("http://i.imgur.com/0Pdm4rg.jpg");
+
+
+        return noteExpandedView;
+    }
+
+    private View getView(int resource, View convertView, ViewGroup parent)
+    {
+        return convertView == null ? inflater.inflate(resource, parent, false) : convertView;
     }
 
     @Override
@@ -63,7 +69,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public int getChildrenCount(int groupPosition)
     {
-        return 0;
+        return 1;
     }
 
     @Override
@@ -95,7 +101,6 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     {
         return false;
     }
-
 
 
     @Override
