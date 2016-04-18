@@ -26,5 +26,6 @@ public class Storage
     private void mockValues()
     {
         notes.add(new Note("Place","Good", "World", null, new Date(), false));
+        notes.add(new Note("Better Place","Good", "World", null, new Date(), false));
     }
 }
