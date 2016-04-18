@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.widget.ExpandableListView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -19,5 +20,11 @@ public class MainActivity extends AppCompatActivity
 
         LayoutInflater inflater = (LayoutInflater)this.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
+
+        Toast toast = Toast.makeText(this, inflater.toString(), Toast.LENGTH_LONG);
+        toast.show();
+
+        noteExpandable.addHeaderView(inflater.inflate(R.layout.new_note_header, noteExpandable, false));
+        noteExpandable.setAdapter(new NoteExpandableListAdapter(noteExpandable, inflater));
     }
 }
