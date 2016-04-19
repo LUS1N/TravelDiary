@@ -15,12 +15,6 @@ public class Storage
         return ourInstance;
     }
 
-    public static Bitmap getScaledBitmap(Bitmap image)
-    {
-        return Bitmap.createScaledBitmap(image, (int) (image.getWidth() * 0.5),
-                (int) (image.getHeight() * 0.5), true);
-    }
-
     private ArrayList<Note> notes;
     private HashMap<String, Bitmap> images;
 
@@ -29,15 +23,11 @@ public class Storage
         images.put(url, image);
     }
 
-    public Bitmap getImage(String url, boolean thumbnail)
+    public Bitmap getImage(String url)
     {
         Bitmap image;
         if ((image = images.get(url)) != null)
         {
-            if (thumbnail)
-            {
-                return getScaledBitmap(image);
-            }
             return image;
         }
         return null;

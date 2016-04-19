@@ -49,7 +49,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
         Note currentNote = storage.getNotes().get(groupPosition);
 
-        addImageToView(currentNote, imageView, false);
+        addImageToView(currentNote, imageView);
 
         return noteExpandedView;
     }
@@ -66,18 +66,18 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
         // Image
         ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
-        addImageToView(currentNote, imageView, true);
+        addImageToView(currentNote, imageView);
     }
 
-    private void addImageToView(Note currentNote, ImageView imageView, boolean isThumb)
+    private void addImageToView(Note currentNote, ImageView imageView)
     {
         Bitmap image;
-        if ((image = storage.getImage(currentNote.getImageURL(), isThumb)) != null)
+        if ((image = storage.getImage(currentNote.getImageURL())) != null)
         {
             imageView.setImageBitmap(image);
         }
         else
-            new ImageDownloaderTask(imageView, isThumb).execute(currentNote.getImageURL());
+            new ImageDownloaderTask(imageView).execute(currentNote.getImageURL());
     }
 
     private View getView(int resource, View convertView, ViewGroup parent)

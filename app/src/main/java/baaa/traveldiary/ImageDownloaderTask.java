@@ -17,12 +17,10 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 {
     private final WeakReference<ImageView> imageViewReference;
     private String stringUrl = "";
-    boolean thumbnail;
 
-    public ImageDownloaderTask(ImageView imageView, boolean thumbnail)
+    public ImageDownloaderTask(ImageView imageView)
     {
         this.imageViewReference = new WeakReference<>(imageView);
-        this.thumbnail = thumbnail;
     }
 
     @Override
@@ -90,6 +88,6 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
         Storage.getInstance().putImage(stringUrl, image);
 
         // if thumbnail is required, return resized version from storage
-        imgView.setImageBitmap(Storage.getInstance().getImage(stringUrl, thumbnail));
+        imgView.setImageBitmap(image);
     }
 }
