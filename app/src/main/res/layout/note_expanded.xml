@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="adress_placeholder"
-        android:id="@+id/expanded_adress_textView"/>
+        android:id="@+id/expanded_address_textView"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -28,6 +28,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/expanded_image"
-        />
+        android:contentDescription="@string/note_image_description"/>
 
 </LinearLayout>

@@ -18,15 +18,15 @@ public class Storage
     private ArrayList<Note> notes;
     private HashMap<String, Bitmap> images;
 
-    public void putImage(String url, Bitmap image)
+    public static void putImage(String url, Bitmap image)
     {
-        images.put(url, image);
+        Storage.getInstance().images.put(url, image);
     }
 
-    public Bitmap getImage(String url)
+    public static Bitmap getImage(String url)
     {
         Bitmap image;
-        if ((image = images.get(url)) != null)
+        if ((image = Storage.getInstance().images.get(url)) != null)
         {
             return image;
         }
@@ -42,15 +42,15 @@ public class Storage
         mockValues();
     }
 
-    public ArrayList<Note> getNotes()
+    public  static ArrayList<Note> getNotes()
     {
-        return notes;
+        return Storage.getInstance().notes;
     }
 
     private void mockValues()
     {
         notes.add(new Note("Place", "Good", "World", new Date(), "http://i.imgur.com/0Pdm4rg.jpg",
-                false));
+                true));
         notes.add(new Note("Better Place", "Good", "World", new Date(),
                 "http://i.imgur.com/SiYjT3Z.png", false));
         notes.add(new Note("Place", "Good", "World", new Date(), "http://i.imgur.com/0Pdm4frg.jpg",

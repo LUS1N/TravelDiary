@@ -85,7 +85,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
     private void addImageToViewAndStorage(Bitmap image, ImageView imgView)
     {
         // save the instance in the hashmap
-        Storage.getInstance().putImage(stringUrl, image);
+        Storage.putImage(stringUrl, image);
 
         // if thumbnail is required, return resized version from storage
         imgView.setImageBitmap(image);

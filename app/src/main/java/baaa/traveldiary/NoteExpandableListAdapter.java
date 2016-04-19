@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,8 +23,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
     LayoutInflater inflater;
     ExpandableListView noteListView;
-    ArrayList<Note> notes = Storage.getInstance().getNotes();
-    Storage storage = Storage.getInstance();
+    ArrayList<Note> notes = Storage.getNotes();
     int lastExpandedGroupPosition;
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
@@ -48,12 +48,27 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {
         View noteExpandedView = getView(R.layout.note_expanded, convertView, parent);
-        ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
-        Note currentNote = storage.getNotes().get(groupPosition);
+        Note currentNote = Storage.getNotes().get(groupPosition);
 
-        proccessImageToView(currentNote, imageView);
+        addValuesToExpandedView(noteExpandedView, currentNote);
 
         return noteExpandedView;
+    }
+
+    public void addValuesToExpandedView(View noteExpandedView, Note currentNote)
+    {
+        TextView addresText = (TextView) noteExpandedView.findViewById(R.id.expanded_address_textView);
+        addresText.setText(currentNote.getAddress());
+
+        TextView descriptionText = (TextView) noteExpandedView.findViewById(R.id.expanded_description_textView);
+        descriptionText.setText(currentNote.getDescription());
+
+        CheckBox visitBox = (CheckBox) noteExpandedView.findViewById(R.id.expanded_visit_again_check);
+        visitBox.setChecked(currentNote.isVisitAgain());
+
+        ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
+        proccessImageToView(currentNote, imageView);
+
     }
 
     private void initialiseGroupViewValues(View noteGroupView, Note currentNote)
@@ -87,7 +102,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     private void addImageToView(ImageView imageView, String url)
     {
         Bitmap image;
-        if ((image = storage.getImage(url)) != null)
+        if ((image = Storage.getImage(url)) != null)
         {
             imageView.setImageBitmap(image);
         }
@@ -147,7 +162,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public long getGroupId(int groupPosition)
     {
-        return storage.getNotes().get(groupPosition).getTitle().hashCode();
+        return Storage.getNotes().get(groupPosition).getTitle().hashCode();
     }
 
     @Override
