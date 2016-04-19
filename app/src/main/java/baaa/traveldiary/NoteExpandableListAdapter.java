@@ -1,5 +1,6 @@
 package baaa.traveldiary;
 
+import android.database.DataSetObserver;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
         Note currentNote = storage.getNotes().get(groupPosition);
 
-        addImageToView(currentNote, imageView);
+        proccessImageToView(currentNote, imageView);
 
         return noteExpandedView;
     }
@@ -67,18 +68,31 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
         // Image
         ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
-        addImageToView(currentNote, imageView);
+        proccessImageToView(currentNote, imageView);
     }
 
-    private void addImageToView(Note currentNote, ImageView imageView)
+    private void proccessImageToView(Note currentNote, ImageView imageView)
+    {
+        if (currentNote.getImageURL() == null)
+        {
+            imageView.setVisibility(View.GONE);
+            return;
+        }
+        else
+            imageView.setVisibility(View.VISIBLE);
+
+        addImageToView(imageView, currentNote.getImageURL());
+    }
+
+    private void addImageToView(ImageView imageView, String url)
     {
         Bitmap image;
-        if ((image = storage.getImage(currentNote.getImageURL())) != null)
+        if ((image = storage.getImage(url)) != null)
         {
             imageView.setImageBitmap(image);
         }
         else
-            new ImageDownloaderTask(imageView).execute(currentNote.getImageURL());
+            new ImageDownloaderTask(imageView).execute(url);
     }
 
     private View getView(int resource, View convertView, ViewGroup parent)
@@ -99,6 +113,13 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         super.onGroupExpanded(groupPosition);
         lastExpandedGroupPosition = groupPosition;
     }
+
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer)
+    {
+        super.registerDataSetObserver(observer);
+    }
+
     @Override
     public int getGroupCount()
     {
@@ -126,7 +147,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public long getGroupId(int groupPosition)
     {
-        return 0;
+        return storage.getNotes().get(groupPosition).getTitle().hashCode();
     }
 
     @Override
@@ -138,7 +159,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     @Override
     public boolean hasStableIds()
     {
-        return false;
+        return true;
     }
 
 
