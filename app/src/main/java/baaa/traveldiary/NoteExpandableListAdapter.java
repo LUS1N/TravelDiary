@@ -23,6 +23,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     ExpandableListView noteListView;
     ArrayList<Note> notes = Storage.getInstance().getNotes();
     Storage storage = Storage.getInstance();
+    int lastExpandedGroupPosition;
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
     {
@@ -85,6 +86,19 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         return convertView == null ? inflater.inflate(resource, parent, false) : convertView;
     }
 
+    @Override
+    public void onGroupExpanded(int groupPosition)
+    {
+        //collapse the old expanded group, if not the same
+        //as new group to expand
+        if (groupPosition != lastExpandedGroupPosition)
+        {
+            noteListView.collapseGroup(lastExpandedGroupPosition);
+        }
+
+        super.onGroupExpanded(groupPosition);
+        lastExpandedGroupPosition = groupPosition;
+    }
     @Override
     public int getGroupCount()
     {
