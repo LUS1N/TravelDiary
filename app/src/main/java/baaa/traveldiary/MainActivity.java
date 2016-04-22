@@ -56,5 +56,5 @@ public class MainActivity extends AppCompatActivity
         DialogFragment dialog = new NoteDialogFragment();
         dialog.show(getFragmentManager(), "NoticeDialogFragment");
     }
-    
+
 }
