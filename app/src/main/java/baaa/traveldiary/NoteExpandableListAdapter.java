@@ -85,13 +85,16 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
     public void addValuesToExpandedView(View noteExpandedView, Note currentNote)
     {
-        TextView addresText = (TextView) noteExpandedView.findViewById(R.id.expanded_address_textView);
+        TextView addresText = (TextView) noteExpandedView.findViewById(
+                R.id.expanded_address_textView);
         addresText.setText(currentNote.getAddress());
 
-        TextView descriptionText = (TextView) noteExpandedView.findViewById(R.id.expanded_description_textView);
+        TextView descriptionText = (TextView) noteExpandedView.findViewById(
+                R.id.expanded_description_textView);
         descriptionText.setText(currentNote.getDescription());
 
-        CheckBox visitBox = (CheckBox) noteExpandedView.findViewById(R.id.expanded_visit_again_check);
+        CheckBox visitBox = (CheckBox) noteExpandedView.findViewById(
+                R.id.expanded_visit_again_check);
         visitBox.setChecked(currentNote.isVisitAgain());
 
         ImageView imageView = (ImageView) noteExpandedView.findViewById(R.id.expanded_image);
@@ -136,6 +139,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         }
         else
             new ImageDownloaderTask(imageView).execute(url);
+
     }
 
     private View getView(int resource, View convertView, ViewGroup parent)
