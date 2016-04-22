@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
@@ -55,4 +56,5 @@ public class MainActivity extends AppCompatActivity
         DialogFragment dialog = new NoteDialogFragment();
         dialog.show(getFragmentManager(), "NoticeDialogFragment");
     }
+    
 }
