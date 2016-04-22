@@ -58,4 +58,16 @@ public class Storage
         notes.add(new Note("Place", "Good", "World", new Date(), null,
                 false));
     }
+
+    public void addNote(Note note)
+    {
+        notes.add(note);
+    }
+
+    public void removeNote(Note note)
+    {
+        notes.remove(note);
+    }
+
+
 }
