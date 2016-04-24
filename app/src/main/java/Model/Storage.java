@@ -42,9 +42,19 @@ public class Storage
         mockValues();
     }
 
-    public  static ArrayList<Note> getNotes()
+    public static void addNote(Note note)
+    {
+        getInstance().notes.add(note);
+    }
+
+    public static ArrayList<Note> getNotes()
     {
         return Storage.getInstance().notes;
+    }
+
+    public static void removeNote(Note note)
+    {
+        getInstance().notes.remove(note);
     }
 
     private void mockValues()
@@ -58,17 +68,6 @@ public class Storage
         notes.add(new Note("Place", "Good", "World", new Date(), null,
                 false));
     }
-
-    public void addNote(Note note)
-    {
-        notes.add(note);
-    }
-
-    public void removeNote(Note note)
-    {
-        notes.remove(note);
-    }
-
 
 
 }
