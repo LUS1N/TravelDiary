@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Adapters;
 
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
@@ -17,6 +17,9 @@ import java.util.ArrayList;
 
 import Model.Note;
 import Model.Storage;
+import baaa.traveldiary.Listeners.RemoveListListener;
+import baaa.traveldiary.R;
+import baaa.traveldiary.Tasks.ImageDownloaderTask;
 
 public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 {

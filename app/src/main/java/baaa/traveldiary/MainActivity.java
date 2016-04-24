@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.ExpandableListView;
 
 import Model.Storage;
+import baaa.traveldiary.Adapters.NoteExpandableListAdapter;
+import baaa.traveldiary.Fragments.NoteDialogFragment;
 
 public class MainActivity extends AppCompatActivity
 {

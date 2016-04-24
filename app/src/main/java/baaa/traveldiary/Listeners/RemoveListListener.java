@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Listeners;
 
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -10,7 +10,7 @@ import Model.Storage;
 /**
  * Listener for removing lists
  */
-class RemoveListListener implements View.OnClickListener
+public class RemoveListListener implements View.OnClickListener
 {
     Note note;
 

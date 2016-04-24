@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Tasks;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
@@ -14,6 +14,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+
+import baaa.traveldiary.Utils.BitmapCoder;
+import baaa.traveldiary.Constants;
 
 /**
  * Created by L on 4/21/2016.

@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Utils;
 
 public class Example_Constants
 {

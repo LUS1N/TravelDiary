@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -17,6 +17,7 @@ import java.util.Calendar;
 
 import Model.Note;
 import Model.Storage;
+import baaa.traveldiary.R;
 
 /**
  * Created by Andy on 22/04/2016.

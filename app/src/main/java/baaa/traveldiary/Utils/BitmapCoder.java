@@ -1,4 +1,4 @@
-package baaa.traveldiary;
+package baaa.traveldiary.Utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
