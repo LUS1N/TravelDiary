@@ -68,6 +68,41 @@ android:id="@+id/new_note_inputs_layout">
 
     </LinearLayout>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/add_note_image_text"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/new_note_buttons_height"
+            android:text="@string/url_button_text"
+            android:id="@+id/URL_button"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/new_note_buttons_height"
+            android:id="@+id/gallery_imageButton"
+            android:src="@drawable/gallery_vector_black_24dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/new_note_buttons_height"
+            android:id="@+id/photo_imageButton"
+            android:src="@drawable/photo_black_24dp"/>
+
+
+    </LinearLayout>
+
 </LinearLayout>
 
 </LinearLayout>
