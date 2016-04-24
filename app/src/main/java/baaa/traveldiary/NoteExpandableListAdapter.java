@@ -47,31 +47,6 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         return noteGroupView;
     }
 
-
-
-    /**
-     * Listener for removing lists
-     */
-    private class RemoveListListener implements View.OnClickListener
-    {
-        Note note;
-
-        public RemoveListListener(Note note)
-        {
-            this.note = note;
-
-        }
-
-        @Override
-        public void onClick(View v)
-        {
-            Storage.getInstance().removeNote(note);
-            View parent = (View) v.getParent().getParent();
-            ((BaseExpandableListAdapter) ((ExpandableListView) parent).getExpandableListAdapter()).notifyDataSetChanged();
-        }
-    }
-
-
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent)
     {

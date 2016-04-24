@@ -1,21 +1,13 @@
 package baaa.traveldiary;
 
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.BaseExpandableListAdapter;
-import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 
-import Model.Note;
 import Model.Storage;
 
 public class MainActivity extends AppCompatActivity
