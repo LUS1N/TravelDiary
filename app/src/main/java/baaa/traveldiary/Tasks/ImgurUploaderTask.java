@@ -2,6 +2,8 @@ package baaa.traveldiary.Tasks;
 
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.EditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +26,14 @@ import baaa.traveldiary.Constants;
 public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
 {
     String IMGUR_POST_URI = "https://api.imgur.com/3/upload";
+
+    EditText urlText;
+
+    public ImgurUploaderTask(EditText urlText)
+    {
+        this.urlText = urlText;
+        Log.e("BB", "New uploader task, urltext " + urlText);
+    }
 
     @Override
     protected String doInBackground(Bitmap... params)
@@ -48,6 +58,13 @@ public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
         return parseURL(responseJSON);
     }
 
+
+    @Override
+    protected void onPostExecute(String s)
+    {
+        Log.e("BB", s);
+        urlText.setText(s);
+    }
 
     private String parseURL(String result)
     {

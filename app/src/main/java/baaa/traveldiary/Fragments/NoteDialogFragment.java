@@ -1,63 +1,111 @@
 package baaa.traveldiary.Fragments;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.Calendar;
 
 import Model.Note;
 import Model.Storage;
-import baaa.traveldiary.Listeners.AddImageFromCameraListener;
-import baaa.traveldiary.Listeners.AddImageFromGalleryListener;
-import baaa.traveldiary.Listeners.AddImageURLListener;
 import baaa.traveldiary.R;
+import baaa.traveldiary.Tasks.ImgurUploaderTask;
 
 /**
  * Created by Andy on 22/04/2016.
  */
+
 public class NoteDialogFragment extends DialogFragment
 {
     View noteDialogView;
+    private int PICK_IMAGE_REQUEST = 1;
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         noteDialogView = inflater.inflate(R.layout.add_note_input, null);
 
+        ((EditText) noteDialogView.findViewById(
+                R.id.url_EditText)).setText("");
         final TextView dateTextView = (TextView) noteDialogView.findViewById(R.id.new_note_date);
         final Calendar c = Calendar.getInstance();
+
+
+
+        ImageButton galleryBtn = (ImageButton) noteDialogView.findViewById(
+                R.id.gallery_imageButton);
+        galleryBtn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                Intent pickPhotoIntent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhotoIntent, PICK_IMAGE_REQUEST);
+            }
+        });
 
         setupCalendar(noteDialogView, dateTextView, c);
         setupDialogActions(builder, noteDialogView, c);
 
-        attachListenersToImageActions();
-
+        for(Note n : Storage.getNotes())
+        {
+            System.out.println(n.getImageURL() + " title " + n.getTitle());
+        }
         return builder.create();
     }
 
-    private void attachListenersToImageActions()
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        noteDialogView.findViewById(R.id.URL_button).setOnClickListener(new AddImageURLListener());
+        super.onActivityResult(requestCode, resultCode, data);
 
-        noteDialogView.findViewById(R.id.gallery_imageButton).setOnClickListener(
-                new AddImageFromGalleryListener());
+        try
+        {
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data != null)
+            {
 
-        noteDialogView.findViewById(R.id.photo_imageButton).setOnClickListener(
-                new AddImageFromCameraListener());
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                // Get the cursor
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                        filePathColumn, null, null, null);
+                // Move to first row
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String imgDecodableString = cursor.getString(columnIndex);
+                cursor.close();
+
+                new ImgurUploaderTask(
+                        ((EditText) noteDialogView.findViewById(R.id.url_EditText))).execute(
+                        BitmapFactory
+                                .decodeFile(imgDecodableString));
+            }
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
-
 
     private void setupDialogActions(AlertDialog.Builder builder, final View noteDialogView, final Calendar c)
     {
@@ -83,8 +131,8 @@ public class NoteDialogFragment extends DialogFragment
                         boolean visitAgain = ((CheckBox) noteDialogView.findViewById(
                                 R.id.new_note_visit)).isChecked();
 
-                        // TODO implement url
-                        String url = "";
+                        String url = ((EditText) noteDialogView.findViewById(
+                                R.id.url_EditText)).getText().toString();
 
 
                         if (!titleString.isEmpty())
@@ -92,6 +140,7 @@ public class NoteDialogFragment extends DialogFragment
                             Storage.addNote(
                                     new Note(titleString, description, address, c.getTime(), url,
                                             visitAgain));
+
                         }
                     }
                 })

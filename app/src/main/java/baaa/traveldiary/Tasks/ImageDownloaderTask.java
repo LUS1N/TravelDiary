@@ -3,7 +3,6 @@ package baaa.traveldiary.Tasks;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ImageView;
 
 import java.io.InputStream;
@@ -54,9 +53,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
         }
         catch (Exception e)
         {
-            assert urlConnection != null;
-            urlConnection.disconnect();
-            Log.w("BB", "Error downloading image from " + url);
+            return null;
         }
         finally
         {

@@ -24,6 +24,7 @@ import baaa.traveldiary.Tasks.ImageDownloaderTask;
 public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 {
 
+    public static NoteExpandableListAdapter instance;
     LayoutInflater inflater;
     ExpandableListView noteListView;
     ArrayList<Note> notes = Storage.getNotes();
@@ -31,6 +32,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
     {
+        instance = this;
         this.noteListView = noteListView;
         this.inflater = inflater;
     }
@@ -80,6 +82,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
     }
 
+
     private void initialiseGroupViewValues(View noteGroupView, Note currentNote)
     {
         // Title
@@ -91,8 +94,8 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
                 sdt.format(currentNote.getDateOfVisit()));
 
         // Image
-        ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
-        proccessImageToView(currentNote, imageView);
+//        ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
+//        proccessImageToView(currentNote, imageView);
     }
 
     private void proccessImageToView(Note currentNote, ImageView imageView)

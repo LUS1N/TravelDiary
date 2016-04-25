@@ -8,6 +8,7 @@
     <string name="note_address">Address</string>
     <string name="note_date">Date</string>
     <string name="confirm">Create</string>
+    <string name="ok">OK</string>
     <string name="cancel">Cancel</string>
     <string name="add_note_image_text">Image:</string>
     <string name="url_button_text">URL</string>
