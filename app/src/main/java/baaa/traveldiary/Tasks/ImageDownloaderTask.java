@@ -72,7 +72,7 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
             return;
 
         ImageView imgView = imageViewReference.get();
-        if (imgView == null || image == null)
+        if (imgView == null)
             return;
 
         addImageToViewAndStorage(image, imgView);
@@ -81,8 +81,9 @@ public class ImageDownloaderTask extends AsyncTask<String, Void, Bitmap>
 
     private void addImageToViewAndStorage(Bitmap image, ImageView imgView)
     {
-        // save the instance in the hashmap
-        Storage.putImage(stringUrl, image);
+        if (image != null)
+            // save the instance in the hashmap
+            Storage.putImage(stringUrl, image);
 
         // if thumbnail is required, return resized version from storage
         imgView.setImageBitmap(image);
