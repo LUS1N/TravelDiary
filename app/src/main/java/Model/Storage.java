@@ -1,6 +1,8 @@
 package Model;
 
 import android.graphics.Bitmap;
+import android.util.Log;
+import android.widget.BaseExpandableListAdapter;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,6 +19,12 @@ public class Storage
 
     private ArrayList<Note> notes;
     private HashMap<String, Bitmap> images;
+    public BaseExpandableListAdapter adapter;
+
+    public static void setAdapter(BaseExpandableListAdapter adapter)
+    {
+        Storage.getInstance().adapter = adapter;
+    }
 
     public static void putImage(String url, Bitmap image)
     {
@@ -44,7 +52,9 @@ public class Storage
 
     public static void addNote(Note note)
     {
+        Log.e("BB", "ADDING NOT IN STORAGE " + note.toString());
         getInstance().notes.add(note);
+        Storage.getInstance().adapter.notifyDataSetChanged();
     }
 
     public static ArrayList<Note> getNotes()
@@ -55,6 +65,7 @@ public class Storage
     public static void removeNote(Note note)
     {
         getInstance().notes.remove(note);
+        Storage.getInstance().adapter.notifyDataSetChanged();
     }
 
     private void mockValues()

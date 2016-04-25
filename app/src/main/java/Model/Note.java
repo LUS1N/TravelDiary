@@ -80,4 +80,17 @@ public class Note
     {
         this.visitAgain = visitAgain;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Note{" +
+                "title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", address='" + address + '\'' +
+                ", dateOfVisit=" + dateOfVisit +
+                ", imageURL='" + imageURL + '\'' +
+                ", visitAgain=" + visitAgain +
+                '}';
+    }
 }

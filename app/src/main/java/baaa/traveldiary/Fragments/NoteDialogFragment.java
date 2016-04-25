@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -134,7 +135,7 @@ public class NoteDialogFragment extends DialogFragment
                         String url = ((EditText) noteDialogView.findViewById(
                                 R.id.url_EditText)).getText().toString();
 
-
+                        Log.e("BB", "URL BEFORE CREATING " + url);
                         if (!titleString.isEmpty())
                         {
                             Storage.addNote(

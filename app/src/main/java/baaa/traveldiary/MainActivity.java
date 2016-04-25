@@ -10,6 +10,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import Model.Storage;
@@ -42,6 +43,29 @@ public class MainActivity extends AppCompatActivity
         setupNoteExpandableListView(noteExpandable, inflater);
     }
 
+    private void setupNoteExpandableListView(ExpandableListView noteExpandable, LayoutInflater inflater)
+    {
+        noteExpandable.addHeaderView(inflater.inflate(R.layout.new_note_header, noteExpandable, false));
+        BaseExpandableListAdapter adapter = new NoteExpandableListAdapter(noteExpandable, inflater);
+        noteExpandable.setAdapter(adapter);
+        Storage.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onRestart()
+    {
+        super.onRestart();
+
+        // Restarting the app only restarts the activity, so this is needed if some changes to Storage are made
+        storage = Storage.getInstance();
+    }
+
+    public void addNewNoteEvent(View view)
+    {
+        DialogFragment dialog = new NoteDialogFragment();
+        dialog.show(getFragmentManager(), "NoticeDialogFragment");
+    }
+
     private void getPermissions()
     {
         if (ContextCompat.checkSelfPermission(this,
@@ -69,27 +93,6 @@ public class MainActivity extends AppCompatActivity
                 // result of the request.
             }
         }
-    }
-
-    private void setupNoteExpandableListView(ExpandableListView noteExpandable, LayoutInflater inflater)
-    {
-        noteExpandable.addHeaderView(inflater.inflate(R.layout.new_note_header, noteExpandable, false));
-        noteExpandable.setAdapter(new NoteExpandableListAdapter(noteExpandable, inflater));
-    }
-
-    @Override
-    protected void onRestart()
-    {
-        super.onRestart();
-
-        // Restarting the app only restarts the activity, so this is needed if some changes to Storage are made
-        storage = Storage.getInstance();
-    }
-
-    public void addNewNoteEvent(View view)
-    {
-        DialogFragment dialog = new NoteDialogFragment();
-        dialog.show(getFragmentManager(), "NoticeDialogFragment");
     }
 
 }
