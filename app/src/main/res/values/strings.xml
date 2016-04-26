@@ -12,4 +12,5 @@
     <string name="cancel">Cancel</string>
     <string name="add_note_image_text">Image:</string>
     <string name="url_button_text">URL</string>
+    <string name="edit">Edit</string>
 </resources>

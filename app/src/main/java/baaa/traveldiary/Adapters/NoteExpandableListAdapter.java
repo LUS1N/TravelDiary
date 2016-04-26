@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 import Model.Note;
 import Model.Storage;
-import baaa.traveldiary.Listeners.RemoveListListener;
+import baaa.traveldiary.Listeners.RemoveNoteListener;
 import baaa.traveldiary.R;
 import baaa.traveldiary.Tasks.ImageDownloaderTask;
 
@@ -46,7 +46,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         Note currentNote = (Note) getGroup(groupPosition);
 
         View removeButton = noteGroupView.findViewById(R.id.removeListButton);
-        removeButton.setOnClickListener(new RemoveListListener(currentNote));
+        removeButton.setOnClickListener(new RemoveNoteListener(currentNote));
 
         initialiseGroupViewValues(noteGroupView, currentNote);
         return noteGroupView;
@@ -94,8 +94,8 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
                 sdt.format(currentNote.getDateOfVisit()));
 
         // Image
-//        ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
-//        proccessImageToView(currentNote, imageView);
+        ImageView imageView = (ImageView) noteGroupView.findViewById(R.id.note_imageView);
+        proccessImageToView(currentNote, imageView);
     }
 
     private void proccessImageToView(Note currentNote, ImageView imageView)

@@ -10,11 +10,11 @@ import Model.Storage;
 /**
  * Listener for removing lists
  */
-public class RemoveListListener implements View.OnClickListener
+public class RemoveNoteListener implements View.OnClickListener
 {
     Note note;
 
-    public RemoveListListener(Note note)
+    public RemoveNoteListener(Note note)
     {
         this.note = note;
 
@@ -24,7 +24,7 @@ public class RemoveListListener implements View.OnClickListener
     public void onClick(View v)
     {
         Storage.getInstance().removeNote(note);
-        View parent = (View) v.getParent().getParent();
+        View parent = (View) v.getParent().getParent().getParent();
         ((BaseExpandableListAdapter) ((ExpandableListView) parent).getExpandableListAdapter()).notifyDataSetChanged();
     }
 }
