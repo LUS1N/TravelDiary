@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
@@ -37,12 +36,10 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         mPrefs = getPreferences(MODE_PRIVATE);
+
         loadStorage();
-
-
         Storage.loadImages();
         getPermissions();
-
 
         setContentView(R.layout.activity_main);
         activity = this;
@@ -64,7 +61,6 @@ public class MainActivity extends AppCompatActivity
 
         if (notes != null)
         {
-
             for (Note n : notes)
             {
                 Storage.addNote(n);
@@ -89,10 +85,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop()
     {
-        Log.e("BB", "ON STOP");
         super.onStop();
         saveData();
-
     }
 
     private void saveData()

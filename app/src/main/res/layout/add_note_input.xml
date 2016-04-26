@@ -83,7 +83,7 @@ android:id="@+id/new_note_inputs_layout">
 
         <EditText
             android:layout_width="@dimen/url_text_width"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/new_note_buttons_height"
             android:id="@+id/url_EditText"
             android:hint="URL"
             android:textAlignment="center"/>
