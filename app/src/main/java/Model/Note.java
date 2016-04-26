@@ -93,4 +93,39 @@ public class Note
                 ", visitAgain=" + visitAgain +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (!(o instanceof Note)) return false;
+
+        Note note = (Note) o;
+
+        if (isVisitAgain() != note.isVisitAgain()) return false;
+        if (getTitle() != null ? !getTitle().equals(note.getTitle()) : note.getTitle() != null)
+            return false;
+        if (getDescription() != null ? !getDescription().equals(
+                note.getDescription()) : note.getDescription() != null) return false;
+        if (getAddress() != null ? !getAddress().equals(
+                note.getAddress()) : note.getAddress() != null)
+            return false;
+        if (getDateOfVisit() != null ? !getDateOfVisit().equals(
+                note.getDateOfVisit()) : note.getDateOfVisit() != null) return false;
+        return getImageURL() != null ? getImageURL().equals(
+                note.getImageURL()) : note.getImageURL() == null;
+
+    }
+
+    @Override
+    public int hashCode()
+    {
+        int result = getTitle() != null ? getTitle().hashCode() : 0;
+        result = 31 * result + (getDescription() != null ? getDescription().hashCode() : 0);
+        result = 31 * result + (getAddress() != null ? getAddress().hashCode() : 0);
+        result = 31 * result + (getDateOfVisit() != null ? getDateOfVisit().hashCode() : 0);
+        result = 31 * result + (getImageURL() != null ? getImageURL().hashCode() : 0);
+        result = 31 * result + (isVisitAgain() ? 1 : 0);
+        return result;
+    }
 }

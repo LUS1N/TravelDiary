@@ -32,7 +32,6 @@ public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
     public ImgurUploaderTask(EditText urlText)
     {
         this.urlText = urlText;
-        Log.e("BB", "New uploader task, urltext " + urlText);
     }
 
     @Override
@@ -62,7 +61,6 @@ public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
     @Override
     protected void onPostExecute(String s)
     {
-        Log.e("BB", s);
         urlText.setText(s);
     }
 
