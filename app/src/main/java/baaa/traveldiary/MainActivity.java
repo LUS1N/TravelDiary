@@ -19,7 +19,6 @@ import baaa.traveldiary.Fragments.NoteDialogFragment;
 
 public class MainActivity extends AppCompatActivity
 {
-    Storage storage = Storage.getInstance();
     public static  MainActivity activity;
     public static int   MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5;
     ExpandableListView noteExpandable;
@@ -28,7 +27,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        Storage.loadImages();
         getPermissions();
 
 
@@ -57,7 +56,7 @@ public class MainActivity extends AppCompatActivity
         super.onRestart();
 
         // Restarting the app only restarts the activity, so this is needed if some changes to Storage are made
-        storage = Storage.getInstance();
+        Storage.getInstance();
     }
 
     public void addNewNoteEvent(View view)

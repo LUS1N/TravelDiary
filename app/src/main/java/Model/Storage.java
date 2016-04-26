@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import baaa.traveldiary.Tasks.ImageDownloaderTask;
+
 public class Storage
 {
     private static Storage ourInstance = new Storage();
@@ -24,6 +26,14 @@ public class Storage
     public static void setAdapter(BaseExpandableListAdapter adapter)
     {
         Storage.getInstance().adapter = adapter;
+    }
+
+    public static void loadImages()
+    {
+        for(Note n : Storage.getNotes())
+        {
+            new ImageDownloaderTask(null).execute(n.getImageURL());
+        }
     }
 
     public static void putImage(String url, Bitmap image)
