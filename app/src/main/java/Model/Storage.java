@@ -12,10 +12,19 @@ import baaa.traveldiary.Tasks.ImageDownloaderTask;
 
 public class Storage
 {
-    private static Storage ourInstance = new Storage();
+    private static Storage ourInstance = null;
+
+    public static void setInstance(Storage inst)
+    {
+        ourInstance = inst;
+    }
 
     public static Storage getInstance()
     {
+        if (ourInstance == null)
+        {
+            ourInstance = new Storage();
+        }
         return ourInstance;
     }
 
@@ -30,7 +39,7 @@ public class Storage
 
     public static void loadImages()
     {
-        for(Note n : Storage.getNotes())
+        for (Note n : Storage.getNotes())
         {
             new ImageDownloaderTask(null).execute(n.getImageURL());
         }

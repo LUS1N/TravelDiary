@@ -3,6 +3,7 @@ package baaa.traveldiary;
 import android.Manifest;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -13,20 +14,27 @@ import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 
+import com.google.gson.Gson;
+
 import Model.Storage;
 import baaa.traveldiary.Adapters.NoteExpandableListAdapter;
 import baaa.traveldiary.Fragments.NoteDialogFragment;
 
 public class MainActivity extends AppCompatActivity
 {
-    public static  MainActivity activity;
-    public static int   MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5;
+    public static MainActivity activity;
+    public static int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5;
+    public static final String STORAGE = "STORAGE";
+    private static final String DEFAULT = "";
     ExpandableListView noteExpandable;
+    SharedPreferences mPrefs;
+    Gson gson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        loadStorage();
         Storage.loadImages();
         getPermissions();
 
@@ -34,17 +42,29 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         activity = this;
 
-         noteExpandable = (ExpandableListView) findViewById(R.id.NoteExpandableListView);
+        noteExpandable = (ExpandableListView) findViewById(R.id.NoteExpandableListView);
 
-        LayoutInflater inflater = (LayoutInflater)this.getSystemService
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
         setupNoteExpandableListView(noteExpandable, inflater);
     }
 
+    private void loadStorage()
+    {
+        mPrefs = getPreferences(MODE_PRIVATE);
+        gson = new Gson();
+
+        String storageJSON = mPrefs.getString(STORAGE, DEFAULT);
+        Storage.setInstance(gson.fromJson(storageJSON, Storage.class));
+        Storage.getInstance();
+    }
+
+
     private void setupNoteExpandableListView(ExpandableListView noteExpandable, LayoutInflater inflater)
     {
-        noteExpandable.addHeaderView(inflater.inflate(R.layout.new_note_header, noteExpandable, false));
+        noteExpandable.addHeaderView(
+                inflater.inflate(R.layout.new_note_header, noteExpandable, false));
         BaseExpandableListAdapter adapter = new NoteExpandableListAdapter(noteExpandable, inflater);
         noteExpandable.setAdapter(adapter);
         Storage.setAdapter(adapter);
@@ -59,27 +79,57 @@ public class MainActivity extends AppCompatActivity
         Storage.getInstance();
     }
 
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        saveData();
+    }
+
+    private void saveData()
+    {
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+
+        // remove old values
+        clearPrefs(prefsEditor);
+
+        String storageJSON = gson.toJson(Storage.getInstance());
+        prefsEditor.putString(STORAGE, storageJSON);
+        prefsEditor.commit();
+    }
+
+    private void clearPrefs(SharedPreferences.Editor prefsEditor)
+    {
+        prefsEditor.remove(STORAGE);
+        prefsEditor.apply();
+    }
+
     public void addNewNoteEvent(View view)
     {
         DialogFragment dialog = new NoteDialogFragment();
         dialog.show(getFragmentManager(), "NoticeDialogFragment");
     }
 
+
     private void getPermissions()
     {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
+                != PackageManager.PERMISSION_GRANTED)
+        {
 
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE))
+            {
 
                 // Show an expanation to the user *asynchronously* -- don't block
                 // this thread waiting for the user's response! After the user
                 // sees the explanation, try again to request the permission.
 
-            } else {
+            }
+            else
+            {
 
                 // No explanation needed, we can request the permission.
 
