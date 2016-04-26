@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 import Model.Note;
 import Model.Storage;
+import baaa.traveldiary.Listeners.EditNoteListener;
 import baaa.traveldiary.Listeners.RemoveNoteListener;
 import baaa.traveldiary.R;
 import baaa.traveldiary.Tasks.ImageDownloaderTask;
@@ -47,6 +48,9 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
         View removeButton = noteGroupView.findViewById(R.id.removeListButton);
         removeButton.setOnClickListener(new RemoveNoteListener(currentNote));
+
+        View editButton = noteGroupView.findViewById(R.id.edit_button);
+        editButton.setOnClickListener(new EditNoteListener(currentNote));
 
         initialiseGroupViewValues(noteGroupView, currentNote);
         return noteGroupView;

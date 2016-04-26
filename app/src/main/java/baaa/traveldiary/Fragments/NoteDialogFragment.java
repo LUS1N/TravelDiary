@@ -35,15 +35,37 @@ public class NoteDialogFragment extends DialogFragment
 {
     View noteDialogView;
     private int PICK_IMAGE_REQUEST = 1;
+    Note note;
+
+    public static NoteDialogFragment newInstance(int arg, Note note) {
+        NoteDialogFragment f = new NoteDialogFragment();
+
+        // Supply num input as an argument.
+        Bundle args = new Bundle();
+        args.putInt("arg", arg);
+        f.setArguments(args);
+        f.setNote(note);
+        f.setArguments(args);
+
+        return f;
+    }
+
+    public void setNote(Note note) {
+        this.note = note;
+    }
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
+        // I have to set the field with the note value but i dont know exactly where.
+        // also to check if it's null or not so basically i will have to do the same thing twice, dont think it is so smart
+        // to figure it out itself if it exists or not
+        //setRetainInstance(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         noteDialogView = inflater.inflate(R.layout.add_note_input, null);
 
-        ((EditText) noteDialogView.findViewById(
-                R.id.url_EditText)).setText("");
+        ((EditText) noteDialogView.findViewById(R.id.url_EditText)).setText("");
+
         final TextView dateTextView = (TextView) noteDialogView.findViewById(R.id.new_note_date);
         final Calendar c = Calendar.getInstance();
 
