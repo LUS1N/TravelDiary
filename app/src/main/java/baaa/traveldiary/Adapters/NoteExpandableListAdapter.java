@@ -50,16 +50,21 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         }
         else
         {
-            for (Note n : Storage.getNotes())
-            {
-                if (contains(n.getTitle(), query) || contains(n.getAddress(), query) || contains(
-                        n.getDescription(), query))
-                {
-                    notes.add(n);
-                }
-            }
+            addFoundNotes(query);
         }
         notifyDataSetChanged();
+    }
+
+    private void addFoundNotes(String query)
+    {
+        for (Note n : Storage.getNotes())
+        {
+            if (contains(n.getTitle(), query) || contains(n.getAddress(), query) || contains(
+                    n.getDescription(), query))
+            {
+                notes.add(n);
+            }
+        }
     }
 
     private boolean contains(String field, String query)
