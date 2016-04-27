@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,12 +18,10 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-import baaa.traveldiary.Utils.BitmapCoder;
 import baaa.traveldiary.Constants;
+import baaa.traveldiary.MainActivity;
+import baaa.traveldiary.Utils.BitmapCoder;
 
-/**
- * Created by L on 4/21/2016.
- */
 public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
 {
     String IMGUR_POST_URI = "https://api.imgur.com/3/upload";
@@ -49,11 +48,11 @@ public class ImgurUploaderTask extends AsyncTask<Bitmap, Void, String>
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+            Toast.makeText(MainActivity.activity, "Error uploading file", Toast.LENGTH_SHORT).show();
+            Log.e("ImgurUploaderTask", e.getLocalizedMessage());
         }
 
         // return the parsed url from the response
-        // TODO deal with error uploading
         return parseURL(responseJSON);
     }
 

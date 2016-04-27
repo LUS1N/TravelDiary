@@ -1,14 +1,10 @@
 package baaa.traveldiary.Utils;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
 
-/**
- * Created by L on 4/22/2016.
- */
 public class BitmapCoder
 {
 
@@ -29,9 +25,4 @@ public class BitmapCoder
         return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.DEFAULT);
     }
 
-    public static Bitmap decodeBase64(String input)
-    {
-        byte[] decodedBytes = Base64.decode(input, 0);
-        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-    }
 }
