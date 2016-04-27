@@ -22,7 +22,8 @@
         android:layout_height="wrap_content"
         android:text="@string/visit_again"
         android:id="@+id/expanded_visit_again_check"
-        android:checked="false"/>
+        android:checked="false"
+        android:enabled="false"/>
 
     <ImageView
         android:layout_width="wrap_content"
