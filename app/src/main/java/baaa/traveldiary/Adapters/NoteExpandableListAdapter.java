@@ -29,7 +29,8 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
     public static NoteExpandableListAdapter instance;
     LayoutInflater inflater;
     ExpandableListView noteListView;
-    ArrayList<Note> notes = Storage.getNotes();
+    // use a copy so we can change the contents for filtering withouth affecting the original list
+    ArrayList<Note> notes = new ArrayList<>(Storage.getNotes());
     int lastExpandedGroupPosition;
 
     public NoteExpandableListAdapter(ExpandableListView noteListView, final LayoutInflater inflater)
@@ -39,6 +40,13 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         this.inflater = inflater;
     }
 
+    @Override
+    public void notifyDataSetChanged()
+    {
+        super.notifyDataSetChanged();
+        notes = new ArrayList<>(Storage.getNotes());
+    }
+
     public void filterData(String query)
     {
         query = query.toLowerCase();
@@ -46,7 +54,8 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
         if (query.isEmpty())
         {
-            notes = Storage.getNotes();
+            // use a copy of the list
+            notes = new ArrayList<>(Storage.getNotes());
         }
         else
         {

@@ -30,7 +30,7 @@ public class Storage
 
     public static void loadImages()
     {
-        for (Note n : Storage.getNotes())
+        for (Note n : ourInstance.notes)
         {
             new ImageDownloaderTask(null).execute(n.getImageURL());
         }
@@ -71,7 +71,7 @@ public class Storage
 
     public static ArrayList<Note> getNotes()
     {
-        return new ArrayList<>(Storage.getInstance().notes);
+        return  ourInstance.notes;
     }
 
     public static void removeNote(Note note)

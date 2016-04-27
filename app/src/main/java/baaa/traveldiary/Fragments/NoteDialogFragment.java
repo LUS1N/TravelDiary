@@ -37,7 +37,8 @@ public class NoteDialogFragment extends DialogFragment
     private int PICK_IMAGE_REQUEST = 1;
     Note note;
 
-    public static NoteDialogFragment newInstance(int arg, Note note) {
+    public static NoteDialogFragment newInstance(int arg, Note note)
+    {
         NoteDialogFragment f = new NoteDialogFragment();
 
         // Supply num input as an argument.
@@ -50,16 +51,13 @@ public class NoteDialogFragment extends DialogFragment
         return f;
     }
 
-    public void setNote(Note note) {
+    public void setNote(Note note)
+    {
         this.note = note;
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        // I have to set the field with the note value but i dont know exactly where.
-        // also to check if it's null or not so basically i will have to do the same thing twice, dont think it is so smart
-        // to figure it out itself if it exists or not
-        //setRetainInstance(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         noteDialogView = inflater.inflate(R.layout.add_note_input, null);
@@ -70,6 +68,18 @@ public class NoteDialogFragment extends DialogFragment
         final Calendar c = Calendar.getInstance();
 
 
+        setupGalleryButton();
+
+        setupCalendar(noteDialogView, dateTextView, c);
+        setupDialogActions(builder, noteDialogView, c);
+
+        initFieldsIfEdit(dateTextView, c);
+
+        return builder.create();
+    }
+
+    private void setupGalleryButton()
+    {
         ImageButton galleryBtn = (ImageButton) noteDialogView.findViewById(
                 R.id.gallery_imageButton);
         galleryBtn.setOnClickListener(new View.OnClickListener()
@@ -83,24 +93,20 @@ public class NoteDialogFragment extends DialogFragment
                 startActivityForResult(pickPhotoIntent, PICK_IMAGE_REQUEST);
             }
         });
-
-        setupCalendar(noteDialogView, dateTextView, c);
-        setupDialogActions(builder, noteDialogView, c);
-
-        initFieldsIfEdit(dateTextView, c);
-
-        return builder.create();
     }
 
     private void initFieldsIfEdit(TextView dateTextView, Calendar c)
     {
-        if(note!=null)
+        if (note != null)
         {
             ((EditText) noteDialogView.findViewById(R.id.new_note_title)).setText(note.getTitle());
-            ((EditText) noteDialogView.findViewById(R.id.new_note_address)).setText(note.getAddress());
-            ((EditText) noteDialogView.findViewById(R.id.new_note_description)).setText(note.getDescription());
+            ((EditText) noteDialogView.findViewById(R.id.new_note_address)).setText(
+                    note.getAddress());
+            ((EditText) noteDialogView.findViewById(R.id.new_note_description)).setText(
+                    note.getDescription());
             ((EditText) noteDialogView.findViewById(R.id.url_EditText)).setText(note.getImageURL());
-            ((CheckBox) noteDialogView.findViewById(R.id.new_note_visit)).setChecked(note.isVisitAgain());
+            ((CheckBox) noteDialogView.findViewById(R.id.new_note_visit)).setChecked(
+                    note.isVisitAgain());
             c.setTime(note.getDateOfVisit());
             setupCalendar(noteDialogView, dateTextView, c);
 
@@ -116,7 +122,6 @@ public class NoteDialogFragment extends DialogFragment
         {
             if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data != null)
             {
-
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
                 // Get the cursor
@@ -144,15 +149,15 @@ public class NoteDialogFragment extends DialogFragment
     private void setupDialogActions(AlertDialog.Builder builder, final View noteDialogView, final Calendar c)
     {
         int confirmText;
-        if(note==null){
+        if (note == null)
+        {
             confirmText = R.string.confirm;
         }
-        else {
+        else
+        {
             confirmText = R.string.edit;
         }
         builder.setView(noteDialogView)
-
-
                 // Add action buttons
                 .setPositiveButton(confirmText, new DialogInterface.OnClickListener()
                 {
@@ -179,23 +184,30 @@ public class NoteDialogFragment extends DialogFragment
 
                         if (!titleString.isEmpty())
                         {
-                            if(note==null) {
+                            if (note == null)
+                            {
                                 Storage.addNote(
-                                        new Note(titleString, description, address, c.getTime(), url,
+                                        new Note(titleString, description, address, c.getTime(),
+                                                url,
                                                 visitAgain));
                             }
                             else
                             {
-                                note.setTitle(titleString);
-                                note.setAddress(address);
-                                note.setDescription(description);
-                                note.setImageURL(url);
-                                note.setVisitAgain(visitAgain);
-                                note.setDateOfVisit(c.getTime());
-                                Storage.getInstance().adapter.notifyDataSetChanged();
+                                modifyNote(titleString, description, address, visitAgain, url);
                             }
 
                         }
+                    }
+
+                    private void modifyNote(String titleString, String description, String address, boolean visitAgain, String url)
+                    {
+                        note.setTitle(titleString);
+                        note.setAddress(address);
+                        note.setDescription(description);
+                        note.setImageURL(url);
+                        note.setVisitAgain(visitAgain);
+                        note.setDateOfVisit(c.getTime());
+                        Storage.getInstance().adapter.notifyDataSetChanged();
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
