@@ -61,7 +61,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         {
             addFoundNotes(query);
         }
-        notifyDataSetChanged();
+       super.notifyDataSetChanged();
     }
 
     private void addFoundNotes(String query)
