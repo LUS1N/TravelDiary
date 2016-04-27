@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -160,15 +159,19 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onQueryTextSubmit(String query)
     {
         hideKeyboard(this);
-        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData(query);
+        filterData(query);
         return false;
+    }
+
+    private void filterData(String query)
+    {
+        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData(query);
     }
 
     @Override
     public boolean onQueryTextChange(String newText)
     {
-        Log.e("BB", "QUERY CjAGE " + newText);
-        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData(newText);
+        filterData(newText);
         return false;
     }
 
@@ -191,7 +194,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public boolean onClose()
     {
         hideKeyboard(this);
-        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData("");
+        filterData("");
         return false;
     }
 }
