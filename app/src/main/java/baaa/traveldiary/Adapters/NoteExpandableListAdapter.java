@@ -19,6 +19,7 @@ import Model.Note;
 import Model.Storage;
 import baaa.traveldiary.Listeners.EditNoteListener;
 import baaa.traveldiary.Listeners.RemoveNoteListener;
+import baaa.traveldiary.MainActivity;
 import baaa.traveldiary.R;
 import baaa.traveldiary.Tasks.ImageDownloaderTask;
 
@@ -53,6 +54,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         editButton.setOnClickListener(new EditNoteListener(currentNote));
 
         initialiseGroupViewValues(noteGroupView, currentNote);
+
         return noteGroupView;
     }
 
@@ -63,7 +65,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         Note currentNote = Storage.getNotes().get(groupPosition);
 
         addValuesToExpandedView(noteExpandedView, currentNote);
-
+        MainActivity.hideKeyboard(MainActivity.activity);
         return noteExpandedView;
     }
 

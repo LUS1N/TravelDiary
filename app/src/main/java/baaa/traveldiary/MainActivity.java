@@ -1,6 +1,7 @@
 package baaa.traveldiary;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
 import android.widget.SearchView;
@@ -49,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         SearchView search = (SearchView) findViewById(R.id.searchView);
         search.setOnQueryTextListener(this);
         noteExpandable = (ExpandableListView) findViewById(R.id.NoteExpandableListView);
-
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
         LayoutInflater inflater = (LayoutInflater) this.getSystemService
                 (Context.LAYOUT_INFLATER_SERVICE);
 
@@ -153,14 +158,30 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query)
     {
-        Log.e("BB", "Text submit " +query);
+        Log.e("BB", "Text submit " + query);
+        hideKeyboard(this);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText)
     {
-        Log.e("BB", "Text change " +newText);
+        Log.e("BB", "Text change " + newText);
         return false;
+    }
+
+    public static void hideKeyboard(Activity activity)
+    {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(
+                Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null)
+        {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
     }
 }
