@@ -39,6 +39,33 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         this.inflater = inflater;
     }
 
+    public void filterData(String query)
+    {
+        query = query.toLowerCase();
+        notes.clear();
+
+        if (query.isEmpty())
+        {
+            notes = Storage.getNotes();
+        }
+        else
+        {
+            for (Note n : Storage.getNotes())
+            {
+                if (contains(n.getTitle(), query) || contains(n.getAddress(), query) || contains(
+                        n.getDescription(), query))
+                {
+                    notes.add(n);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    private boolean contains(String field, String query)
+    {
+        return field.toLowerCase().contains(query);
+    }
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)

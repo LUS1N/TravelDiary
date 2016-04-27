@@ -71,7 +71,7 @@ public class Storage
 
     public static ArrayList<Note> getNotes()
     {
-        return Storage.getInstance().notes;
+        return new ArrayList<>(Storage.getInstance().notes);
     }
 
     public static void removeNote(Note note)

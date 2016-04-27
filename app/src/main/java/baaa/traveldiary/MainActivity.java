@@ -26,7 +26,8 @@ import Model.Storage;
 import baaa.traveldiary.Adapters.NoteExpandableListAdapter;
 import baaa.traveldiary.Fragments.NoteDialogFragment;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
+        SearchView.OnCloseListener
 {
     public static MainActivity activity;
     public static int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5;
@@ -158,15 +159,16 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query)
     {
-        Log.e("BB", "Text submit " + query);
         hideKeyboard(this);
+        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData(query);
         return false;
     }
 
     @Override
     public boolean onQueryTextChange(String newText)
     {
-        Log.e("BB", "Text change " + newText);
+        Log.e("BB", "QUERY CjAGE " + newText);
+        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData(newText);
         return false;
     }
 
@@ -183,5 +185,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
+    }
+
+    @Override
+    public boolean onClose()
+    {
+        hideKeyboard(this);
+        ((NoteExpandableListAdapter) Storage.getInstance().adapter).filterData("");
+        return false;
     }
 }
