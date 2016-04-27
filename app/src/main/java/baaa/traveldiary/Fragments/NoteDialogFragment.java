@@ -87,6 +87,18 @@ public class NoteDialogFragment extends DialogFragment
         setupCalendar(noteDialogView, dateTextView, c);
         setupDialogActions(builder, noteDialogView, c);
 
+        if(note!=null)
+        {
+            ((EditText) noteDialogView.findViewById(R.id.new_note_title)).setText(note.getTitle());
+            ((EditText) noteDialogView.findViewById(R.id.new_note_address)).setText(note.getAddress());
+            ((EditText) noteDialogView.findViewById(R.id.new_note_description)).setText(note.getDescription());
+            ((EditText) noteDialogView.findViewById(R.id.url_EditText)).setText(note.getImageURL());
+            ((CheckBox) noteDialogView.findViewById(R.id.new_note_visit)).setChecked(note.isVisitAgain());
+            c.setTime(note.getDateOfVisit());
+            setupCalendar(noteDialogView, dateTextView, c);
+
+        }
+
         return builder.create();
     }
 
@@ -126,9 +138,18 @@ public class NoteDialogFragment extends DialogFragment
 
     private void setupDialogActions(AlertDialog.Builder builder, final View noteDialogView, final Calendar c)
     {
+        int confirmText;
+        if(note==null){
+            confirmText = R.string.confirm;
+        }
+        else {
+            confirmText = R.string.edit;
+        }
         builder.setView(noteDialogView)
+
+
                 // Add action buttons
-                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
+                .setPositiveButton(confirmText, new DialogInterface.OnClickListener()
                 {
                     @Override
                     public void onClick(DialogInterface dialog, int id)
@@ -153,9 +174,21 @@ public class NoteDialogFragment extends DialogFragment
 
                         if (!titleString.isEmpty())
                         {
-                            Storage.addNote(
-                                    new Note(titleString, description, address, c.getTime(), url,
-                                            visitAgain));
+                            if(note==null) {
+                                Storage.addNote(
+                                        new Note(titleString, description, address, c.getTime(), url,
+                                                visitAgain));
+                            }
+                            else
+                            {
+                                note.setTitle(titleString);
+                                note.setAddress(address);
+                                note.setDescription(description);
+                                note.setImageURL(url);
+                                note.setVisitAgain(visitAgain);
+                                note.setDateOfVisit(c.getTime());
+                                Storage.getInstance().adapter.notifyDataSetChanged();
+                            }
 
                         }
                     }

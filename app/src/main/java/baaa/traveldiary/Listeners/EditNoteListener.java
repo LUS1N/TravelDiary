@@ -40,8 +40,5 @@ public class EditNoteListener implements View.OnClickListener
 
         DialogFragment dialog = NoteDialogFragment.newInstance(1,note);
         dialog.show(fm,"editDialogFragment");
-
-        View parent = (View) v.getParent().getParent().getParent();
-        ((BaseExpandableListAdapter) ((ExpandableListView) parent).getExpandableListAdapter()).notifyDataSetChanged();
     }
 }
