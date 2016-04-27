@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.widget.BaseExpandableListAdapter;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
+import java.util.Calendar;
 import java.util.HashMap;
 
 import baaa.traveldiary.Tasks.ImageDownloaderTask;
@@ -71,7 +71,7 @@ public class Storage
 
     public static ArrayList<Note> getNotes()
     {
-        return  ourInstance.notes;
+        return ourInstance.notes;
     }
 
     public static void removeNote(Note note)
@@ -82,20 +82,23 @@ public class Storage
 
     public void mockValues()
     {
+        Calendar c = Calendar.getInstance();
+        c.set(2014, 8, 22);
         addNote(new Note("Aarhus",
                 "Aarhus is the second-largest city in Denmark and the seat of Aarhus Municipality. It is located on the east coast of the Jutland peninsula, in the geographical centre of Denmark, 187 kilometres (116 mi) northwest of Copenhagen and 289 kilometres (180 mi) north of Hamburg, Germany. ",
-                "Aarhus, Denmark", new GregorianCalendar(2014, 8, 22).getGregorianChange(), "http://i.imgur.com/7JgRVZD.jpg",
+                "Aarhus, Denmark", c.getTime(), "http://i.imgur.com/7JgRVZD.jpg",
                 true));
 
+        c.set(2015, 10, 18);
         addNote(new Note("Randers",
                 "Randers is a city in Randers Municipality, Central Denmark Region on the Jutland peninsula. It is Denmark's sixth-largest city, with a population of 61,163,",
-                "Randers, Denmark", new GregorianCalendar(2015, 10, 18).getGregorianChange(),
+                "Randers, Denmark", c.getTime(),
                 "http://i.imgur.com/hVnli8u.jpg", false));
 
-
+        c.set(2015, 8, 15);
         addNote(new Note("Copenhagen",
                 "Copenhagen is the capital and most populated city of Denmark. It has a municipal population of 591,481 and a larger urban population of 1,280,371",
-                "Copenhagen, Denmark", new GregorianCalendar(2015, 8, 15).getGregorianChange(), "http://i.imgur.com/NuNbHIJ.jpg",
+                "Copenhagen, Denmark", c.getTime(), "http://i.imgur.com/NuNbHIJ.jpg",
                 true));
     }
 

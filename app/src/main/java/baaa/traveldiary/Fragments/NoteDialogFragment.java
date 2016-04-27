@@ -27,10 +27,6 @@ import Model.Storage;
 import baaa.traveldiary.R;
 import baaa.traveldiary.Tasks.ImgurUploaderTask;
 
-/**
- * Created by Andy on 22/04/2016.
- */
-
 public class NoteDialogFragment extends DialogFragment
 {
     View noteDialogView;
@@ -120,7 +116,7 @@ public class NoteDialogFragment extends DialogFragment
 
         try
         {
-            if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data != null)
+            if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null)
             {
                 Uri selectedImage = data.getData();
                 String[] filePathColumn = {MediaStore.Images.Media.DATA};
@@ -186,10 +182,7 @@ public class NoteDialogFragment extends DialogFragment
                         {
                             if (note == null)
                             {
-                                Storage.addNote(
-                                        new Note(titleString, description, address, c.getTime(),
-                                                url,
-                                                visitAgain));
+                                createNote(titleString, description, address, visitAgain, url);
                             }
                             else
                             {
@@ -197,6 +190,14 @@ public class NoteDialogFragment extends DialogFragment
                             }
 
                         }
+                    }
+
+                    private void createNote(String titleString, String description, String address, boolean visitAgain, String url)
+                    {
+                        Storage.addNote(
+                                new Note(titleString, description, address, c.getTime(),
+                                        url,
+                                        visitAgain));
                     }
 
                     private void modifyNote(String titleString, String description, String address, boolean visitAgain, String url)
