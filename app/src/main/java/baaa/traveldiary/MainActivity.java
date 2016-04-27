@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.SearchView;
 
 import com.google.gson.Gson;
 
@@ -21,7 +23,7 @@ import Model.Storage;
 import baaa.traveldiary.Adapters.NoteExpandableListAdapter;
 import baaa.traveldiary.Fragments.NoteDialogFragment;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener
 {
     public static MainActivity activity;
     public static int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 5;
@@ -44,6 +46,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         activity = this;
 
+        SearchView search = (SearchView) findViewById(R.id.searchView);
+        search.setOnQueryTextListener(this);
         noteExpandable = (ExpandableListView) findViewById(R.id.NoteExpandableListView);
 
         LayoutInflater inflater = (LayoutInflater) this.getSystemService
@@ -146,4 +150,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query)
+    {
+        Log.e("BB", "Text submit " +query);
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText)
+    {
+        Log.e("BB", "Text change " +newText);
+        return false;
+    }
 }
