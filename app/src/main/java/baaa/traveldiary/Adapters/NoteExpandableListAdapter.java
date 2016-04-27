@@ -92,7 +92,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
         Note currentNote = Storage.getNotes().get(groupPosition);
 
         addValuesToExpandedView(noteExpandedView, currentNote);
-        MainActivity.hideKeyboard(MainActivity.activity);
+
         return noteExpandedView;
     }
 
@@ -173,6 +173,7 @@ public class NoteExpandableListAdapter extends BaseExpandableListAdapter
 
         super.onGroupExpanded(groupPosition);
         lastExpandedGroupPosition = groupPosition;
+        MainActivity.hideKeyboard(MainActivity.activity);
     }
 
     @Override

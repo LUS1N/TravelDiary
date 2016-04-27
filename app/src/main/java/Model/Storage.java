@@ -4,7 +4,7 @@ import android.graphics.Bitmap;
 import android.widget.BaseExpandableListAdapter;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 import baaa.traveldiary.Tasks.ImageDownloaderTask;
@@ -82,14 +82,21 @@ public class Storage
 
     public void mockValues()
     {
-        addNote(new Note("Place", "Good", "World", new Date(), "http://i.imgur.com/0Pdm4rg.jpg",
+        addNote(new Note("Aarhus",
+                "Aarhus is the second-largest city in Denmark and the seat of Aarhus Municipality. It is located on the east coast of the Jutland peninsula, in the geographical centre of Denmark, 187 kilometres (116 mi) northwest of Copenhagen and 289 kilometres (180 mi) north of Hamburg, Germany. ",
+                "Aarhus, Denmark", new GregorianCalendar(2014, 8, 22).getGregorianChange(), "http://i.imgur.com/7JgRVZD.jpg",
                 true));
-        addNote(new Note("Better Place", "Good", "World", new Date(),
-                "http://i.imgur.com/SiYjT3Z.png", false));
-        addNote(new Note("Place", "Good", "World", new Date(), "http://i.imgur.com/0Pdm4frg.jpg",
-                false));
-        addNote(new Note("Place", "Good", "World", new Date(), null,
-                false));
+
+        addNote(new Note("Randers",
+                "Randers is a city in Randers Municipality, Central Denmark Region on the Jutland peninsula. It is Denmark's sixth-largest city, with a population of 61,163,",
+                "Randers, Denmark", new GregorianCalendar(2015, 10, 18).getGregorianChange(),
+                "http://i.imgur.com/hVnli8u.jpg", false));
+
+
+        addNote(new Note("Copenhagen",
+                "Copenhagen is the capital and most populated city of Denmark. It has a municipal population of 591,481 and a larger urban population of 1,280,371",
+                "Copenhagen, Denmark", new GregorianCalendar(2015, 8, 15).getGregorianChange(), "http://i.imgur.com/NuNbHIJ.jpg",
+                true));
     }
 
 

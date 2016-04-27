@@ -87,6 +87,13 @@ public class NoteDialogFragment extends DialogFragment
         setupCalendar(noteDialogView, dateTextView, c);
         setupDialogActions(builder, noteDialogView, c);
 
+        initFieldsIfEdit(dateTextView, c);
+
+        return builder.create();
+    }
+
+    private void initFieldsIfEdit(TextView dateTextView, Calendar c)
+    {
         if(note!=null)
         {
             ((EditText) noteDialogView.findViewById(R.id.new_note_title)).setText(note.getTitle());
@@ -98,8 +105,6 @@ public class NoteDialogFragment extends DialogFragment
             setupCalendar(noteDialogView, dateTextView, c);
 
         }
-
-        return builder.create();
     }
 
     @Override
